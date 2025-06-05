@@ -2,9 +2,7 @@ version: "3.8"
 
 services:
   spring:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: openjdk:17-jdk-slim
     container_name: spring-app
     ports:
       - "8080:8080"
@@ -13,6 +11,14 @@ services:
       - redis
     env_file:
       - .env
+    volumes:
+      - ./app.jar:/app.jar
+    command: >
+      java
+      -Dspring.data.mongodb.uri=${MONGODB_URI}
+      -Dspring.redis.host=${REDIS_HOST}
+      -Dspring.redis.port=${REDIS_PORT}
+      -jar /app.jar
 
   mongo:
     image: mongo:6.0
