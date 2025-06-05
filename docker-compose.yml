@@ -11,10 +11,8 @@ services:
     depends_on:
       - mongo
       - redis
-    environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/your-db
-      SPRING_DATA_REDIS_HOST: redis
-      SPRING_DATA_REDIS_PORT: 6379
+    env_file:
+      - .env
 
   mongo:
     image: mongo:6.0
@@ -22,8 +20,8 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
 
   redis:
     image: redis:7.0
