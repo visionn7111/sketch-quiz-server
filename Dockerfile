@@ -4,7 +4,6 @@ VOLUME /tmp
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
 
-# 빌드 시점에 ARG로 환경변수 받기 (필요 시)
-ARG MONGODB_URI
+ENV MONGODB_URI=${MONGODB_URI}
 
-ENTRYPOINT ["sh", "-c", "java -Dspring.data.mongodb.uri=${MONGODB_URI} -jar /app.jar"]
+ENTRYPOINT ["sh", "-c", "java -Dspring.data.mongodb.uri=$MONGODB_URI -jar /app.jar"]
