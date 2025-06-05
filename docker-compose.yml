@@ -3,7 +3,6 @@ version: '3.8'
 services:
   mongodb:
     image: mongo:6
-    restart: always
     ports:
       - "27017:27017"
     environment:
@@ -14,7 +13,6 @@ services:
 
   redis:
     image: redis:7
-    restart: always
     ports:
       - "6379:6379"
     volumes:
@@ -24,12 +22,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: always
+    ports:
+      - "8080:8080"
     depends_on:
       - mongodb
       - redis
-    ports:
-      - "8080:8080"
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
 
 volumes:
   mongo-data:
